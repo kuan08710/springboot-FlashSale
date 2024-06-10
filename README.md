@@ -1,4 +1,4 @@
-  # flaseSale
+  # FlashSale
 
 ## 項目簡介
 
