@@ -65,18 +65,21 @@ public class SeckillSevice {
      * @throws SeckillException
      */
     public SeckillItem getItemById (Integer id , String mobile) throws SeckillException {
-        SeckillOrderPK pk = new SeckillOrderPK(id , mobile);
-        Optional<SeckillOrder> optionalOrder = seckillOrderRepository.findById(pk);
+        SeckillOrderPK seckillOrderPK = new SeckillOrderPK(id , mobile);
+        Optional<SeckillOrder> optionalOrder = seckillOrderRepository.findById(seckillOrderPK);
         if (!optionalOrder.isEmpty()) {
             SeckillOrder order = optionalOrder.get();
 
-            if (order.getState() == 1) {  //訂單已支付，重複秒殺
+            // 訂單已支付，重複秒殺
+            if (order.getState() == 1) {
                 throw new RepeatSeckillException();
             }
-            else if (order.getState() == 0) {  //已限時搶購，但還未支付
+            // 已限時搶購，但還未支付
+            else if (order.getState() == 0) {
                 throw new UnpaidException();
             }
-            else {  //訂單已經故障
+            // 訂單已經故障
+            else {
                 throw new OrderInvalidationException();
             }
         }
@@ -104,11 +107,11 @@ public class SeckillSevice {
                                                      .get(RedisConfig.ITEM_KEY , id);
         Integer inventory = item.getInventory();
 
-        //如果庫存不夠，則拋出例外，交給Web層進行處理
+        // 如果庫存不夠，則拋出例外，交給Web層進行處理
         if (inventory <= 0) {
             throw new InsufficientInventoryException();
         }
-        //將庫存遞減1
+        // 將庫存遞減 1
         item.setInventory(item.getInventory() - 1);
         redisTemplate.opsForHash()
                      .put(RedisConfig.ITEM_KEY , id , item);
@@ -122,7 +125,7 @@ public class SeckillSevice {
         order.setState(0);
         seckillOrderRepository.save(order);
 
-        //發送延遲訂單處理訊息
+        // 發送延遲訂單處理訊息
         orderSender.sendDelayMsg(new SeckillOrderPK(id , mobile));
 
     }
@@ -136,11 +139,14 @@ public class SeckillSevice {
     public void pay (Integer id , String mobile) {
         SeckillOrder order = seckillOrderRepository.getById(new SeckillOrderPK(id , mobile));
         int state = order.getState();
-        if (state == 0) {  //如果是未支付，則設定為已支付
+
+        // 如果是未支付，則設定為已支付
+        if (state == 0) {
             order.setState(1);
             seckillOrderRepository.save(order);
         }
-        else if (state == -1) {  //如果訂單已經故障，則拋出例外。
+        // 如果訂單已經故障，則拋出例外
+        else if (state == -1) {
             throw new OrderInvalidationException();
         }
     }
