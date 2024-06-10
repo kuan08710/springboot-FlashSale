@@ -75,6 +75,8 @@ public class SeckillController {
         return "pay";
     }
 
+    // 從回傳訊息 改成 可跳回主頁
+    /*
     @GetMapping("/pay")
     @ResponseBody
     public String pay (Integer id , String mobile) {
@@ -85,6 +87,17 @@ public class SeckillController {
         catch (OrderInvalidationException e) {
             return "您的訂單已經故障";
         }
+    }
+     */
+    @GetMapping("/pay")
+    public String pay(Integer id, String mobile, Model model) {
+        try {
+            seckillSevice.pay(id, mobile);
+            model.addAttribute("msg", "支付成功");
+        } catch (OrderInvalidationException e) {
+            model.addAttribute("error", "您的訂單已經故障");
+        }
+        return "result";
     }
 
     /**

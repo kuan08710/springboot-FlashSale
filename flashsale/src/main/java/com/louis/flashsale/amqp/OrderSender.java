@@ -17,7 +17,8 @@ import static com.louis.flashsale.config.DelayedRabbitConfig.DELAY_QUEUE_NAME;
 public class OrderSender {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    private static final Integer DELAY_TIME = 10 * 60 * 1000; // 延遲 10 分鐘
+    private static final Integer DELAY_TIME = 60 * 1000; // 延遲 1 分鐘
+
     @Autowired
     private AmqpTemplate rabbitTemplate;
 
@@ -32,7 +33,7 @@ public class OrderSender {
             message.getMessageProperties()
                    .setDeliveryMode(MessageDeliveryMode.PERSISTENT);
 
-            //指定訊息延遲的時長為10分鐘，以毫秒為單位
+            // 指定訊息延遲的時長為 1 分鐘，以毫秒為單位
             message.getMessageProperties()
                    .setDelay(DELAY_TIME);
             return message;

@@ -38,17 +38,17 @@ public class OrderConsumer {
     public void process (SeckillOrderPK orderPK , Message message , Channel channel) throws IOException {
         SeckillOrder order = seckillOrderRepository.getById(orderPK);
 
-        //如果訂單未支付，則取消訂單，增加商品庫存
+        // 如果訂單未支付，則取消訂單，增加商品庫存
         if (order.getState() == 0) {
 
             logger.info("訂單[%d]支付逾時%n" , order.getItemId());
             logger.info("開始取消訂單......");
 
-            //將訂單設為無效訂單
+            // 將訂單設為無效訂單
             order.setState(-1);
             seckillOrderRepository.save(order);
 
-            //恢復庫存
+            // 恢復庫存
             SeckillItem item = (SeckillItem)redisTemplate.opsForHash()
                                                          .get(RedisConfig.ITEM_KEY , orderPK.getItemId());
             item.setInventory(item.getInventory() + 1);

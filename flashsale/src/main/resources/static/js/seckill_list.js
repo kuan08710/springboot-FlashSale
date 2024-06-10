@@ -1,8 +1,11 @@
 function confirmPhone(id) {
+
     const itemId = document.getElementById("itemId");
     itemId.value = id;
+
     const msgBox = document.getElementById("messageBox");
     msgBox.style.display = "block";
+
     document.body.appendChild(msgBox);
 }
 
