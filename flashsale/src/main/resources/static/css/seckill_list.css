@@ -1,0 +1,99 @@
+.items {
+    float: left;
+    text-align: center;
+    margin-top: 50px;
+}
+
+.items .item {
+    display: inline-block;
+    width: 30%;
+    border-right: solid 1px #ccc;
+    margin-left: 10px;
+}
+
+div.info {
+    text-align: left;
+}
+
+div.info p {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.item img {
+    width: 200px;
+    height: 200px
+}
+
+.item span.price {
+    color: #cdcdcd;
+    text-decoration: line-through;
+}
+
+.item span.seckillPrice {
+    color: red;
+}
+
+.item span.inventory {
+    font-size: 12px;
+    font-weight: bold;
+    color: red;
+}
+
+div.buy {
+    text-align: center;
+}
+
+div.buy button {
+    padding: 5px 10px 6px;
+    color: #fff;
+    border: none;
+    border-bottom: solid 1px #222;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px #999;
+    text-shadow: 0 -1px 3px #444;
+    cursor: pointer;
+    background-color: #e33100;
+    width: 80%;
+}
+
+.messageBox {
+    width: 220px;
+    height: 160px;
+    border: solid 1px #ccc;
+    border-radius: 4px;
+    background: white;
+    box-shadow: 0px 1px 2px 2px #ccc;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    margin: -50px 0 0 -80px;
+    text-align: center;
+}
+
+.messageBox h2 {
+    text-align: center;
+    line-height: 40px;
+    font-size: 18px;
+}
+
+.messageBox .btn {
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    line-height: 30px;
+    width: 100%;
+    text-align: center;
+}
+
+.messageBox .ok, .messageBox .cancel {
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 30px;
+    border: solid 1px #ccc;
+    width: 40%;
+    background-color: #eee;
+    cursor: pointer;
+    border-radius: 2px;
+}
